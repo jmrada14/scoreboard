@@ -40,8 +40,8 @@ function App() {
                   <Form.Control
                     name="homeVal"
                     size="lg"
-                    type="text"
-                    placeholder="Large text"
+                    type="number"
+                    placeholder="0"
                     onChange={handleInput}
                   />
                 </Form.Group>
@@ -62,8 +62,8 @@ function App() {
                     <Form.Control
                       name="timeVal"
                       size="lg"
-                      type="text"
-                      placeholder="Large text"
+                      type="number"
+                      placeholder="0"
                       onChange={handleInput}
                     />
                   </Form.Group>
@@ -75,7 +75,7 @@ function App() {
                 className="h1 border border-black "
                 style={{ margin: "0 auto" }}
               >
-                PERIOD
+                Quarter
               </div>
               <div>
                 <Form>
@@ -83,8 +83,8 @@ function App() {
                     <Form.Control
                       name="periodVal"
                       size="lg"
-                      type="text"
-                      placeholder="Large text"
+                      type="number"
+                      placeholder="1"
                       onChange={handleInput}
                     />
                   </Form.Group>
@@ -105,8 +105,8 @@ function App() {
                   <Form.Control
                     name="guestVal"
                     size="lg"
-                    type="text"
-                    placeholder="Large text"
+                    type="number"
+                    placeholder="0"
                     onChange={handleInput}
                   />
                 </Form.Group>
