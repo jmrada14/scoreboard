@@ -1,0 +1,46 @@
+{
+    "FixtureData": {
+      "MaxOvertimes": 0,
+      "OvertimeLength": 0.08008281904610115,
+      "SubCode": "NFL",
+      "Code": "American"
+    },
+    "MatchState": {
+      "TeamInPossession": "Away",
+      "Down": 1,
+      "CurrentQuarter": 3,
+      "AwayTimeoutsRemaining": 3,
+      "PlaySubType": "PAT",
+      "Q1Score": {
+        "Away": 0,
+        "Home": 0
+      },
+      "Q2Score": {
+        "Away": 0,
+        "Home": 0
+      },
+      "Q3Score": {
+        "Away": 0,
+        "Home": 0
+      },
+      "Q4Score": {
+        "Away": 0,
+        "Home": 0
+      },
+      "OTScore": {
+        "Away": 0,
+        "Home": 0
+      },
+      "IsClockRunning": true,
+      "HomeTimeoutsRemaining": 3,
+      "TeamFirstKickoff": "Away",
+      "PlayType": "Standard",
+      "YardsToGo": 10,
+      "YardLine": 75,
+      "TimeRemainingInQuarter": 900
+    },
+    "TradingParameters": {
+      "Supremacy": 10,
+      "TotalPoints": 48
+    }
+  }
