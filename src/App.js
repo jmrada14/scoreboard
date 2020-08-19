@@ -14,7 +14,7 @@ function App() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    postAPI("/NFLBLABLABLA");
+    postAPI("http://localhost:8080/AmericanFootballModel/s");
   };
   const postJSON = {
     FixtureData: {
@@ -26,42 +26,44 @@ function App() {
     MatchState: {
       TeamInPossession: input.teamPos ? input.teamPos : "h=Home",
       Down: input.downVal ? input.downVal : 0,
-      CurrentQuarter: input.periodVal ? input.periodVal : 1,
-      AwayTimeoutsRemaining: input.AwayTimeRem ? input.AwayTimeRem : 3,
+      CurrentQuarter: input.periodVal ? +input.periodVal : 1,
+      AwayTimeoutsRemaining: input.AwayTimeRem ? +input.AwayTimeRem : 3,
       PlaySubType: "PAT",
       Q1Score: {
         Away: input.guestValQ1 ? +input.guestValQ1 : 0,
-        Home: input.homeValQ1 ? input.homeValQ1 : 0,
+        Home: input.homeValQ1 ? +input.homeValQ1 : 0,
       },
       Q2Score: {
-        Away: input.guestValQ2 ? input.guestValQ2 : 0,
-        Home: input.homeValQ2 ? input.homeValQ2 : 0,
+        Away: input.guestValQ2 ? +input.guestValQ2 : 0,
+        Home: input.homeValQ2 ? +input.homeValQ2 : 0,
       },
       Q3Score: {
-        Away: input.guestValQ3 ? input.guestValQ3 : 0,
-        Home: input.homeValQ3 ? input.homeValQ3 : 0,
+        Away: input.guestValQ3 ? +input.guestValQ3 : 0,
+        Home: input.homeValQ3 ? +input.homeValQ3 : 0,
       },
       Q4Score: {
-        Away: input.guestValQ4 ? input.guestValQ4 : 0,
-        Home: input.homeValQ4 ? input.homeValQ4 : 0,
+        Away: input.guestValQ4 ? +input.guestValQ4 : 0,
+        Home: input.homeValQ4 ? +input.homeValQ4 : 0,
       },
       OTScore: {
-        Away: input.guestValQ5 ? input.guestValQ5 : 0,
-        Home: input.homeValQ5 ? input.homeValQ5 : 0,
+        Away: input.guestValQ5 ? +input.guestValQ5 : 0,
+        Home: input.homeValQ5 ? +input.homeValQ5 : 0,
       },
       IsClockRunning: true,
-      HomeTimeoutsRemaining: input.homeTimeRem ? input.homeTimeRem : 3,
-      TeamFirstKickoff: input.firstKickOff ? input.firstKickOff : "home",
+      HomeTimeoutsRemaining: input.homeTimeRem ? +input.homeTimeRem : 3,
+      TeamFirstKickoff: input.firstKickOff ? input.firstKickOff : "Home",
       PlayType: "Standard",
-      YardsToGo: input.yardsToGo ? input.yardsToGo : 0,
-      YardLine: input.YardsLine ? input.YardsLine : 1,
-      TimeRemainingInQuarter: input.timeVal ? input.timeVal : 900,
+      YardsToGo: input.yardsToGo ? +input.yardsToGo : 0,
+      YardLine: input.YardsLine ? +input.YardsLine : 1,
+      TimeRemainingInQuarter: input.timeVal ? +input.timeVal : 900,
     },
     TradingParameters: {
-      Supremacy: input.supremacy ? input.supremacy : 5,
-      TotalPoints: input.totalPts ? input.totalPts : 15,
+      Supremacy: input.supremacy ? +input.supremacy : 5,
+      TotalPoints: input.totalPts ? +input.totalPts : 15,
     },
   };
+
+  const positivePatten = "/^\d*[1-9]\d*$/"
 
   console.log(postJSON);
   const handleInput = (event) => {
@@ -89,11 +91,11 @@ function App() {
             >
               HOME
             </div>
-            <FormField name="homeValQ1" onChange={handleInput} />
-            <FormField name="homeValQ2" onChange={handleInput} />
-            <FormField name="homeValQ3" onChange={handleInput} />
-            <FormField name="homeValQ4" onChange={handleInput} />
-            <FormField name="homeValQ5" onChange={handleInput} />
+            <FormField name="homeValQ1" onChange={handleInput} pattern="/^\d+$/" type="number" />
+            <FormField name="homeValQ2" onChange={handleInput} pattern="/^\d+$/" type="number" />
+            <FormField name="homeValQ3" onChange={handleInput} pattern="/^\d+$/" type="number" />
+            <FormField name="homeValQ4" onChange={handleInput} pattern="/^\d+$/" type="number" />
+            <FormField name="homeValQ5" onChange={handleInput} pattern="/^\d+$/" type="number" />
           </Col>
           <Col className="border border-black">
             <Row>
@@ -105,6 +107,7 @@ function App() {
                   name="periodVal"
                   onChange={handleInput}
                   label="CurrentQ"
+                  type="number"
                 />
               </Col>
             </Row>
@@ -131,6 +134,7 @@ function App() {
                   name="homeTimeRem"
                   onChange={handleInput}
                   label="Home timeout rem"
+                  type="number"
                 />
               </Col>
               <Col md="6">
@@ -138,6 +142,7 @@ function App() {
                   name="AwayTimeRem"
                   onChange={handleInput}
                   label="Away timeout rem"
+                  type="number"
                 />
               </Col>
             </Row>
@@ -147,6 +152,7 @@ function App() {
                   name="yardsToGo"
                   onChange={handleInput}
                   label="YardsToGo"
+                  type="number"
                 />
               </Col>
               <Col md="6">
@@ -154,17 +160,14 @@ function App() {
                   name="YardsLine"
                   onChange={handleInput}
                   label="Yards Line"
+                  type="number"
                 />
               </Col>
             </Row>
             <Row>
               <Row>
                 <Col md="6">
-                  <FormField
-                    name="toGoVal"
-                    onChange={handleInput}
-                    label="TO GO"
-                  />
+
                 </Col>
                 <Col md="6">
                   <FormField
@@ -176,16 +179,18 @@ function App() {
               </Row>
               <Col md="6">
                 <FormField
-                  name="supremacy"
+                  name="totalPts"
                   onChange={handleInput}
-                  label="Supremacy"
+                  label="total pts"
+                  type="number"
                 />
               </Col>
               <Col md="6">
                 <FormField
-                  name="totalPts"
-                  onChange={handleInput}
-                  label="total pts"
+                    name="supremacy"
+                    onChange={handleInput}
+                    label="Supremacy"
+                    type="number"
                 />
               </Col>
             </Row>
@@ -199,11 +204,11 @@ function App() {
               GUEST
             </div>
             <div>
-              <FormField name="guestValQ1" onChange={handleInput} />
-              <FormField name="guestValQ2" onChange={handleInput} />
-              <FormField name="guestValQ3" onChange={handleInput} />
-              <FormField name="guestValQ4" onChange={handleInput} />
-              <FormField name="guestValQ5" onChange={handleInput} />
+              <FormField name="guestValQ1" onChange={handleInput} pattern="/^\d+$/" type="number" />
+              <FormField name="guestValQ2" onChange={handleInput} pattern="/^\d+$/" type="number" />
+              <FormField name="guestValQ3" onChange={handleInput} pattern="/^\d+$/" type="number" />
+              <FormField name="guestValQ4" onChange={handleInput} pattern="/^\d+$/" type="number" />
+              <FormField name="guestValQ5" onChange={handleInput} pattern="/^\d+$/" type="number" />
             </div>
           </Col>
 

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Form} from "react-bootstrap";
 
-const FormField = ({name, onChange,label, value, pattern}) => {
+const FormField = ({name, onChange,label, value, pattern, type}) => {
     return(
         <div>
             <div
-                    className="h1 border border-black "
+                    className="h-100 border border-black "
                     style={{ margin: "0 auto" }}
                   >
                     {label}
@@ -15,11 +15,11 @@ const FormField = ({name, onChange,label, value, pattern}) => {
                 <Form.Group>
                   <Form.Control
                     name={name}
-                    size="md"
+                    size="sm"
                     value={value}
                     pattern={pattern}
-                    type="text"
-                    placeholder="Large text"
+                    type={type}
+                    placeholder=""
                     onChange={onChange}
                   />
                 </Form.Group>
