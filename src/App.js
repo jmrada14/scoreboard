@@ -196,6 +196,8 @@ function App() {
                     />
                   </Form.Group>
                 </Form>
+              </div>
+              <div className="h-75">
                 <Row>
                   <div
                     className="h-75"
