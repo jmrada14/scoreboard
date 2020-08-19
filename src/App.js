@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Jumbotron, Form, Button } from "react-bootstrap";
-import API from "./API";
+import FormField from "./formField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./app.css";
+import Axios from "axios";
 
 function App() {
-  const [response, setResponse] = useState({});
   const [input, setInput] = useState({});
-  const postAPI = (query) => {
-    API.post(query)
-      .then((res) => setResponse({ response: res.data }))
-      .catch((err) => console.log(err));
+  const postAPI = (url) => {
+    Axios.post(url, postJSON)
+      .then((res) => console.log(res))
+      .catch((err) => alert(err));
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    postAPI(input);
+    postAPI("/NFLBLABLABLA");
   };
   const postJSON = {
     FixtureData: {
@@ -55,13 +55,14 @@ function App() {
       PlayType: "Standard",
       YardsToGo: input.yardsToGo ? input.yardsToGo : 0,
       YardLine: input.YardsLine ? input.YardsLine : 1,
-      TimeRemainingInQuarter: input.timeVal ? input.timeVal : 900 ,
+      TimeRemainingInQuarter: input.timeVal ? input.timeVal : 900,
     },
     TradingParameters: {
       Supremacy: input.supremacy ? input.supremacy : 5,
       TotalPoints: input.totalPts ? input.totalPts : 15,
     },
   };
+
   console.log(postJSON);
   const handleInput = (event) => {
     const { target } = event;
@@ -69,415 +70,143 @@ function App() {
     const name = target?.name;
     setInput({ ...input, [name]: value });
   };
-  console.log(input);
   return (
     <Container>
       <Jumbotron>
         <Row>
           <Col md={3} className="border border-black">
             <div
-              className="h5"
+              className="h1"
               style={{ textAlign: "center", margin: "0 auto" }}
             >
               HOME
             </div>
-            <div>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="homeValQ1"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="homeValQ2"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="homeValQ3"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="homeValQ4"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="homeValQ5"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-            </div>
+            <FormField name="homeValQ1" onChange={handleInput} />
+            <FormField name="homeValQ2" onChange={handleInput} />
+            <FormField name="homeValQ3" onChange={handleInput} />
+            <FormField name="homeValQ4" onChange={handleInput} />
+            <FormField name="homeValQ5" onChange={handleInput} />
           </Col>
-          <Col md={6} className="border border-black">
+          <Col className="border border-black">
             <Row>
-              <div
-                className="h5-50 border border-black "
-                style={{ margin: "0 auto" }}
-              >
-                TIME
-              </div>
-              <div>
-                <Form>
-                  <Form.Group>
-                    <Form.Control
-                      name="timeVal"
-                      size="sm"
-                      type="number"
-                      placeholder="0"
-                      onChange={handleInput}
-                    />
-                  </Form.Group>
-                </Form>
-              </div>
+              <Col md="6">
+                <FormField name="timeVal" onChange={handleInput} label="TIME" />
+              </Col>
+              <Col md="6">
+                <FormField
+                  name="periodVal"
+                  onChange={handleInput}
+                  label="CurrentQ"
+                />
+              </Col>
             </Row>
             <Row>
-              <div
-                className="h-50 border border-black "
-                style={{ margin: "0 auto" }}
-              >
-                Current quarter
-              </div>
-              <div>
-                <Form>
-                  <Form.Group>
-                    <Form.Control
-                      name="periodVal"
-                      size="sm"
-                      type="number"
-                      placeholder="1"
-                      onChange={handleInput}
-                    />
-                  </Form.Group>
-                </Form>
-              </div>
+              <Col md="6">
+                <FormField
+                  name="teamPos"
+                  onChange={handleInput}
+                  label="Team in pos"
+                />
+              </Col>
+              <Col md="6">
+                <FormField
+                  name="firstKickOff"
+                  onChange={handleInput}
+                  label="first kick off"
+                />
+              </Col>
             </Row>
             <Row>
-              <div className="h-75">
-                Team in pos
-              <Form>
-                  <Form.Group>
-                    <Form.Control
-                      name="teamPos"
-                      size="sm"
-                      type="text"
-                      placeholder="Home"
-                      onChange={handleInput}
-                    />
-                  </Form.Group>
-                </Form>
-              </div>
-              <div className="h-75">
-                <Row>
-                  <div
-                    className="h-75"
-                    style={{ margin: "0 auto" }}
-                  >
-                    Home timeout rem
-                  </div>
-                  <div>
-                    <Form>
-                      <Form.Group>
-                        <Form.Control
-                          name="homeTimeRem"
-                          size="sm"
-                          type="number"
-                          placeholder="3"
-                          onChange={handleInput}
-                        />
-                      </Form.Group>
-                    </Form>
-                  </div>
-                </Row>
-                <Row>
-                  <div
-                    className="h-75 border border-black "
-                    style={{ margin: "0 auto" }}
-                  >
-                    Away timeout rem
-                  </div>
-                  <div>
-                    <Form>
-                      <Form.Group>
-                        <Form.Control
-                          name="AwayTimeRem"
-                          size="sm"
-                          type="number"
-                          placeholder="3"
-                          onChange={handleInput}
-                        />
-                      </Form.Group>
-                    </Form>
-                  </div>
-                </Row>
-                <Row>
-                  <Col>
-                    <div>
-                      <div
-                        className="h-75 border border-black "
-                        style={{ margin: "0 auto" }}
-                      >
-                        Yards to go
-                      </div>
-                      <Form>
-                        <Form.Group>
-                          <Form.Control
-                            name="yardsToGo"
-                            size="sm"
-                            type="number"
-                            placeholder="100"
-                            onChange={handleInput}
-                          />
-                        </Form.Group>
-                      </Form>
-                    </div>
-                    <div>
-                      <div
-                        className="h-75 border border-black "
-                        style={{ margin: "0 auto" }}
-                      >
-                        Yards Line
-                      </div>
-                      <Form>
-                        <Form.Group>
-                          <Form.Control
-                            name="YardsLine"
-                            size="sm"
-                            type="number"
-                            placeholder="1"
-                            onChange={handleInput}
-                          />
-                        </Form.Group>
-                      </Form>
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <div>
-                      <div
-                        className="h-75 border border-black "
-                        style={{ margin: "0 auto" }}
-                      >
-                        Supremacy
-                      </div>
-                      <Form>
-                        <Form.Group>
-                          <Form.Control
-                            name="supremacy"
-                            size="sm"
-                            type="number"
-                            placeholder="10"
-                            onChange={handleInput}
-                          />
-                        </Form.Group>
-                      </Form>
-                    </div>
-                    <div>
-                      <div
-                        className="h-75 border border-black"
-                        style={{ margin: "0 auto" }}
-                      >
-                        total pts
-                      </div>
-                      <Form>
-                        <Form.Group>
-                          <Form.Control
-                            name="totalPts"
-                            size="sm"
-                            type="number"
-                            placeholder="40"
-                            home
-                            onChange={handleInput}
-                          />
-                        </Form.Group>
-                      </Form>
-                    </div>
-                    <div>
-                      <div
-                        className="h-50 border border-black "
-                        style={{ margin: "0 auto" }}
-                      >
-                        first kick off
-                      </div>
-                      <Form>
-                        <Form.Group>
-                          <Form.Control
-                            name="firstKickOff"
-                            size="sm"
-                            type="text"
-                            placeholder="Home"
-                            home
-                            onChange={handleInput}
-                          />
-                        </Form.Group>
-                      </Form>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
+              <Col md="6">
+                {" "}
+                <FormField
+                  name="homeTimeRem"
+                  onChange={handleInput}
+                  label="Home timeout rem"
+                />
+              </Col>
+              <Col md="6">
+                <FormField
+                  name="AwayTimeRem"
+                  onChange={handleInput}
+                  label="Away timeout rem"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col md="6">
+                <FormField
+                  name="yardsToGo"
+                  onChange={handleInput}
+                  label="YardsToGo"
+                />
+              </Col>
+              <Col md="6">
+                <FormField
+                  name="YardsLine"
+                  onChange={handleInput}
+                  label="Yards Line"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Row>
+                <Col md="6">
+                  <FormField
+                    name="toGoVal"
+                    onChange={handleInput}
+                    label="TO GO"
+                  />
+                </Col>
+                <Col md="6">
+                  <FormField
+                    name="downVal"
+                    onChange={handleInput}
+                    label="DOWN"
+                  />
+                </Col>
+              </Row>
+              <Col md="6">
+                <FormField
+                  name="supremacy"
+                  onChange={handleInput}
+                  label="Supremacy"
+                />
+              </Col>
+              <Col md="6">
+                <FormField
+                  name="totalPts"
+                  onChange={handleInput}
+                  label="total pts"
+                />
+              </Col>
             </Row>
           </Col>
+
           <Col md={3} className="border border-black">
             <div
-              className="h5"
+              className="h1"
               style={{ textAlign: "center", margin: "0 auto" }}
             >
-              AWAY
+              GUEST
             </div>
             <div>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="guestValQ1"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="guestValQ2"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="guestValQ3"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="guestValQ4"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="guestValQ5"
-                    size="sm"
-                    type="number"
-                    placeholder="0"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
+              <FormField name="guestValQ1" onChange={handleInput} />
+              <FormField name="guestValQ2" onChange={handleInput} />
+              <FormField name="guestValQ3" onChange={handleInput} />
+              <FormField name="guestValQ4" onChange={handleInput} />
+              <FormField name="guestValQ5" onChange={handleInput} />
             </div>
           </Col>
-        </Row>
 
-        <Row style={{ marginTop: "5%" }}>
-          <Col md={2} className="border border-black">
-            <div>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="toGoVal"
-                    size="sm"
-                    type="text"
-                    placeholder="Large text"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-            </div>
-          </Col>
-          <Col md={2} className="border border-black">
-            <div
-              className="h1"
-              style={{ textAlign: "center", margin: "0 auto" }}
-            >
-              TO GO
-            </div>
-          </Col>
-          <Col md={4} className="border border-black">
-            <div
-              className="h1"
-              style={{ textAlign: "center", margin: "0 auto" }}
-            >
-              SCOREBOARD
-            </div>
-          </Col>
-          <Col md={2} className="border border-black">
-            <div
-              className="h1"
-              style={{ textAlign: "center", margin: "0 auto" }}
-            >
-              DOWN
-            </div>
-          </Col>
-          <Col md={2} className="border border-black">
-            <div>
-              <Form>
-                <Form.Group>
-                  <Form.Control
-                    name="downVal"
-                    size="lg"
-                    type="text"
-                    placeholder="Large text"
-                    onChange={handleInput}
-                  />
-                </Form.Group>
-              </Form>
-            </div>
-          </Col>
+          <Button
+            style={{ textAlign: "center", margin: "0 auto" }}
+            size="lg"
+            onClick={handleSubmit}
+          >
+            POST
+          </Button>
         </Row>
-        <Button
-          style={{ textAlign: "center", margin: "0 auto" }}
-          size="lg"
-          onClick={handleSubmit}
-        >
-          POST
-        </Button>
       </Jumbotron>
     </Container>
   );
