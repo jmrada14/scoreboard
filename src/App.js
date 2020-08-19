@@ -30,7 +30,7 @@ function App() {
       AwayTimeoutsRemaining: input.AwayTimeRem ? input.AwayTimeRem : 3,
       PlaySubType: "PAT",
       Q1Score: {
-        Away: input.guestValQ1 ? input.guestValQ1 : 0,
+        Away: input.guestValQ1 ? +input.guestValQ1 : 0,
         Home: input.homeValQ1 ? input.homeValQ1 : 0,
       },
       Q2Score: {

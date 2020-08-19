@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form} from "react-bootstrap";
 
-const FormField = ({name, onChange,label}) => {
+const FormField = ({name, onChange,label, value, pattern}) => {
     return(
         <div>
             <div
@@ -15,7 +15,9 @@ const FormField = ({name, onChange,label}) => {
                 <Form.Group>
                   <Form.Control
                     name={name}
-                    size="lg"
+                    size="md"
+                    value={value}
+                    pattern={pattern}
                     type="text"
                     placeholder="Large text"
                     onChange={onChange}
