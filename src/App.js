@@ -24,7 +24,7 @@ function App() {
       Code: "American",
     },
     MatchState: {
-      TeamInPossession: input.teamPos ? input.teamPos : "home",
+      TeamInPossession: input.teamPos ? input.teamPos : "h=Home",
       Down: input.downVal ? input.downVal : 0,
       CurrentQuarter: input.periodVal ? input.periodVal : 1,
       AwayTimeoutsRemaining: input.AwayTimeRem ? input.AwayTimeRem : 3,
@@ -70,6 +70,14 @@ function App() {
     const name = target?.name;
     setInput({ ...input, [name]: value });
   };
+
+  const handleNumber = (e) => {
+    const re = /^[0-9\b]+$/;
+    // if value is not blank, then test the regex
+    if (e.target.value === '' || re.test(e.target.value)) {
+       this.setState({value: e.target.value})
+    }
+  }
   return (
     <Container>
       <Jumbotron>
