@@ -5,7 +5,7 @@ const FormField = ({name, onChange,label, value, pattern, type}) => {
     return(
         <div>
             <div
-                    className="h-100 border border-black "
+                    className="h-100 "
                     style={{ margin: "0 auto" }}
                   >
                     {label}
