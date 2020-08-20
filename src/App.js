@@ -25,7 +25,7 @@ function App() {
     },
     MatchState: {
       TeamInPossession: input.teamPos ? input.teamPos : "h=Home",
-      Down: input.downVal ? input.downVal : 0,
+      Down: input.downVal ? +input.downVal : 0,
       CurrentQuarter: input.periodVal ? +input.periodVal : 1,
       AwayTimeoutsRemaining: input.AwayTimeRem ? +input.AwayTimeRem : 3,
       PlaySubType: "PAT",
