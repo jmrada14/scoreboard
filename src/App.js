@@ -27,8 +27,8 @@ function App() {
       Code: "American",
     },
     MatchState: {
-      TeamInPossession: input.teamPos ? input.teamPos : "h=Home",
-      Down: input.downVal ? +input.downVal : 0,
+      TeamInPossession: input.teamPos ? input.teamPos : "Home",
+      Down: input.downVal ? +input.downVal : 1,
       CurrentQuarter: input.periodVal ? +input.periodVal : 1,
       AwayTimeoutsRemaining: input.AwayTimeRem ? +input.AwayTimeRem : 3,
       PlaySubType: "PAT",
@@ -56,7 +56,7 @@ function App() {
       HomeTimeoutsRemaining: input.homeTimeRem ? +input.homeTimeRem : 3,
       TeamFirstKickoff: input.firstKickOff ? input.firstKickOff : "Home",
       PlayType: "Standard",
-      YardsToGo: input.yardsToGo ? +input.yardsToGo : 0,
+      YardsToGo: input.yardsToGo ? +input.yardsToGo : 10,
       YardLine: input.YardsLine ? +input.YardsLine : 1,
       TimeRemainingInQuarter: input.timeVal ? +input.timeVal : 900,
     },
@@ -306,6 +306,7 @@ function App() {
           </Button>
         </Row>
       </Jumbotron>
+      <div>{JSON.stringify(response)}</div>
     </Container>
   );
 }
