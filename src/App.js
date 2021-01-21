@@ -4,21 +4,33 @@ import FormField from "./formField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./app.css";
 import Axios from "axios";
-import Tree from "react-json-tree"
+import Tree from "react-json-tree";
 
+
+let url;
 
 function App() {
   const [input, setInput] = useState({});
-  const [response, setResponse] = useState({});
-  const postAPI = (url) => {
+  const [response, setResponse] = useState({})
+
+  const env = input.API || "ci"
+  if (env === "localhost") {
+    url = "http://localhost:8080/AmericanFootballModel/s"
+  } else {
+    url = "http://americanfootball-ncaa.sports-models-" + env + ".i.geniussports.com/AmericanFootballModel/s"
+  }
+
+  const postAPI = () => {
+
     Axios.post(url, postJSON)
       .then((res) => setResponse(res))
-      .catch((err) => alert(err));
+      .catch((err) => alert(err, err.data, err.headers));
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    postAPI("http://localhost:8080/AmericanFootballModel/s");
+    postAPI({url});
   };
+
   const postJSON = {
     FixtureData: {
       MaxOvertimes: 0,
@@ -31,7 +43,7 @@ function App() {
       Down: input.downVal ? +input.downVal : 1,
       CurrentQuarter: input.periodVal ? +input.periodVal : 1,
       AwayTimeoutsRemaining: input.AwayTimeRem ? +input.AwayTimeRem : 3,
-      PlaySubType: "PAT",
+      PlaySubType: "Standard",
       Q1Score: {
         Away: input.guestValQ1 ? +input.guestValQ1 : 0,
         Home: input.homeValQ1 ? +input.homeValQ1 : 0,
@@ -54,15 +66,15 @@ function App() {
       },
       IsClockRunning: true,
       HomeTimeoutsRemaining: input.homeTimeRem ? +input.homeTimeRem : 3,
-      TeamFirstKickoff: input.firstKickOff ? input.firstKickOff : "Home",
-      PlayType: "Standard",
+      TeamFirstKickoff: input.firstKickOff ? input.firstKickOff : "Away",
+      PlayType: input.playtype ? input.playtype : 'Standard',
       YardsToGo: input.yardsToGo ? +input.yardsToGo : 10,
-      YardLine: input.YardsLine ? +input.YardsLine : 1,
+      YardLine: input.YardsLine ? +input.YardsLine : 75,
       TimeRemainingInQuarter: input.timeVal ? +input.timeVal : 900,
     },
     TradingParameters: {
-      Supremacy: input.supremacy ? +input.supremacy : 5,
-      TotalPoints: input.totalPts ? +input.totalPts : 15,
+      Supremacy: input.supremacy ? +input.supremacy : 15,
+      TotalPoints: input.totalPts ? +input.totalPts : 60,
     },
   };
 
@@ -76,6 +88,7 @@ function App() {
   return (
     <Container>
       <Jumbotron>
+        <div>API in {url}</div>
         <Row>
           <Col md={3} className="border border-black">
             <div
@@ -89,54 +102,49 @@ function App() {
               onChange={handleInput}
               pattern="/^\d+$/"
               type="number"
-              value={input.homeValQ1 ? input.homeValQ1 : 0}
+              value={input.homeValQ1 ? input.homeValQ1 : 0 }
             />
             <FormField
               name="homeValQ2"
               onChange={handleInput}
               pattern="/^\d+$/"
               type="number"
-              value={input.homeValQ2 ? input.homeValQ2 : 0}
+              value={input.homeValQ2 ? input.homeValQ2 : 0 }
             />
             <FormField
               name="homeValQ3"
               onChange={handleInput}
               pattern="/^\d+$/"
               type="number"
-              value={input.homeValQ3 ? input.homeValQ3 : 0}
+              value={input.homeValQ3 ? input.homeValQ3 : 0 }
             />
             <FormField
               name="homeValQ4"
               onChange={handleInput}
               pattern="/^\d+$/"
               type="number"
-              value={input.homeValQ4 ? input.homeValQ4 : 0}
+              value={input.homeValQ4 ? input.homeValQ4 : 0 }
             />
             <FormField
               name="homeValQ5"
               onChange={handleInput}
               pattern="/^\d+$/"
               type="number"
-              value={input.homeValQ5 ? input.homeValQ5 : 0}
+              value={input.homeValQ5 ? input.homeValQ5 : 0 }
             />
           </Col>
           <Col className="border border-black">
             <Row>
               <Col md="6">
-                <FormField
-                  name="timeVal"
-                  onChange={handleInput}
-                  label="TIME"
-                  value={input.timeVal ? input.timeVal : 700}
-                />
+                <FormField name="timeVal" onChange={handleInput} label="TimeRemainQuarter [s]" value={input.timeVal ? input.timeVal : 900 }/>
               </Col>
               <Col md="6">
                 <FormField
                   name="periodVal"
                   onChange={handleInput}
-                  label="CurrentQ"
+                  label="CurrentQuarter"
                   type="number"
-                  value={input.periodVal ? input.periodVal : 1}
+                  value={input.periodVal ? input.periodVal : 1 }
                 />
               </Col>
             </Row>
@@ -148,16 +156,17 @@ function App() {
                   label="Team in pos"
                 /> */}
                 <Form>
-                  <Form.Label>Team in pos</Form.Label>
+                  <Form.Label>TeamInPossession</Form.Label>
                   <Form.Control
                     name="teamPos"
                     as="select"
                     custom
                     onChange={handleInput}
-                    value={input.teamPos ? input.teamPos : "Home"}
+                    value={input.teamPos ? input.teamPos : "Home" }
                   >
                     <option>Home</option>
                     <option>Away</option>
+                    <option>Neutral</option>
                   </Form.Control>
                 </Form>
               </Col>
@@ -168,16 +177,17 @@ function App() {
                   label="first kick off"
                 /> */}
                 <Form>
-                  <Form.Label>First kick off</Form.Label>
+                  <Form.Label>TeamFirstKickoff</Form.Label>
                   <Form.Control
                     name="firstKickOff"
                     as="select"
                     custom
                     onChange={handleInput}
-                    value={input.firstKickOff ? input.firstKickOff : 0}
+                    value={input.firstKickOff ? input.firstKickOff : "Away" }
                   >
                     <option>Home</option>
                     <option>Away</option>
+                    <option>Neutral</option>
                   </Form.Control>
                 </Form>
               </Col>
@@ -188,18 +198,18 @@ function App() {
                 <FormField
                   name="homeTimeRem"
                   onChange={handleInput}
-                  label="Home timeout rem"
+                  label="HomeTimeoutRemain"
                   type="number"
-                  value={input.homeTimeRem ? input.homeTimeRem : 0}
+                  value={input.homeTimeRem ? input.homeTimeRem : 3 }
                 />
               </Col>
               <Col md="6">
                 <FormField
                   name="AwayTimeRem"
                   onChange={handleInput}
-                  label="Away timeout rem"
+                  label="AwayTimeoutRemain"
                   type="number"
-                  value={input.AwayTimeRem ? input.AwayTimeRem : 0}
+                  value={input.AwayTimeRem ? input.AwayTimeRem : 3 }
                 />
               </Col>
             </Row>
@@ -208,18 +218,18 @@ function App() {
                 <FormField
                   name="yardsToGo"
                   onChange={handleInput}
-                  label="YardsToGo"
+                  label="YardsToGo (to 1st Down)"
                   type="number"
-                  value={input.yardsToGo ? input.yardsToGo : 0}
+                  value={input.yardsToGo ? input.yardsToGo : 10 }
                 />
               </Col>
               <Col md="6">
                 <FormField
                   name="YardsLine"
                   onChange={handleInput}
-                  label="Yards Line"
+                  label="YardLine (to Endzone)"
                   type="number"
-                  value={input.YardLine ? input.YardLine : 0}
+                  value={input.YardsLine ? input.YardsLine : 75 }
                 />
               </Col>
             </Row>
@@ -231,17 +241,18 @@ function App() {
                     name="downVal"
                     onChange={handleInput}
                     label="DOWN"
-                    value={input.downVal ? input.downVal : 0}
+                    value={input.downVal ? input.downVal : 1 }
                   />
                 </Col>
               </Row>
+              <Row>
               <Col md="6">
                 <FormField
                   name="totalPts"
                   onChange={handleInput}
-                  label="total pts"
+                  label="TotalPoints"
                   type="number"
-                  value={input.totalPts ? input.totalPts : 0}
+                  value={input.totalPts ? input.totalPts : 60 }
                 />
               </Col>
               <Col md="6">
@@ -250,18 +261,53 @@ function App() {
                   onChange={handleInput}
                   label="Supremacy"
                   type="number"
-                  value={input.supremacy ? input.supremacy : 0}
+                  value={input.supremacy ? input.supremacy: 15 }
                 />
               </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form>
+                    <Form.Label>API Environment</Form.Label>
+                    <Form.Control
+                        name="API"
+                        as="select"
+                        custom
+                        onChange={handleInput}
+                        value={input.api}
+                    >
+                      <option>ci</option>
+                      <option>localhost</option>
+                      <option>uat</option>
+                      <option>production</option>
+                    </Form.Control>
+                  </Form>
+                </Col>
+                <Col>
+                  <Form>
+                    <Form.Label>PlayType</Form.Label>
+                    <Form.Control
+                        name="playtype"
+                        as="select"
+                        custom
+                        onChange={handleInput}
+                        value={input.playtype ? input.playtype : "Standard" }
+                    >
+                      <option>Standard</option>
+                      <option>Conversion</option>
+                      <option>Kickoff</option>
+                    </Form.Control>
+                  </Form>
+                </Col>
+              </Row>
             </Row>
           </Col>
-
           <Col md={3} className="border border-black">
             <div
               className="h1"
               style={{ textAlign: "center", margin: "0 auto" }}
             >
-              GUEST
+              AWAY
             </div>
             <div>
               <FormField
@@ -269,39 +315,38 @@ function App() {
                 onChange={handleInput}
                 pattern="/^\d+$/"
                 type="number"
-                value={input.guestValQ1 ? input.guestValQ1 : 0}
+                value={input.guestValQ1 ? input.guestValQ1 : 0 }
               />
               <FormField
                 name="guestValQ2"
                 onChange={handleInput}
                 pattern="/^\d+$/"
                 type="number"
-                value={input.guestValQ2 ? input.guestValQ2 : 0}
+                value={input.guestValQ2 ? input.guestValQ2 : 0 }
               />
               <FormField
                 name="guestValQ3"
                 onChange={handleInput}
                 pattern="/^\d+$/"
                 type="number"
-                value={input.guestValQ3 ? input.guestValQ3 : 0}
+                value={input.guestValQ3 ? input.guestValQ3 : 0 }
               />
               <FormField
                 name="guestValQ4"
                 onChange={handleInput}
                 pattern="/^\d+$/"
                 type="number"
-                value={input.guestValQ4 ? input.guestValQ4 : 0}
+                value={input.guestValQ4 ? input.guestValQ4 : 0 }
               />
               <FormField
                 name="guestValQ5"
                 onChange={handleInput}
                 pattern="/^\d+$/"
                 type="number"
-                value={input.guestValQ5 ? input.guestValQ5 : 0}
+                value={input.guestValQ5 ? input.guestValQ5 : 0 }
               />
             </div>
           </Col>
-
           <Button
             style={{ textAlign: "center", margin: "0 auto" }}
             size="lg"
@@ -311,8 +356,9 @@ function App() {
           </Button>
         </Row>
       </Jumbotron>
+
       <div>
-        <Tree data={response} />
+        <Tree data={response?.data} />
       </div>
     </Container>
   );
