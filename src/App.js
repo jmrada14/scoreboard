@@ -35,7 +35,7 @@ function App() {
     FixtureData: {
       MaxOvertimes: 0,
       OvertimeLength: 0.08008281904610115,
-      SubCode: "NFL",
+      SubCode: "NCAA",
       Code: "American",
     },
     MatchState: {
@@ -73,7 +73,7 @@ function App() {
       TimeRemainingInQuarter: input.timeVal ? +input.timeVal : 900,
     },
     TradingParameters: {
-      Supremacy: input.supremacy ? +input.supremacy : 15,
+      Supremacy: input.supremacy ? +input.supremacy : 10,
       TotalPoints: input.totalPts ? +input.totalPts : 60,
     },
   };
@@ -261,7 +261,7 @@ function App() {
                   onChange={handleInput}
                   label="Supremacy"
                   type="number"
-                  value={input.supremacy ? input.supremacy: 15 }
+                  value={input.supremacy ? input.supremacy: 10 }
                 />
               </Col>
               </Row>

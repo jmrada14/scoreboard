@@ -1,8 +1,8 @@
 
 
-# docker build -t nfl_scoreboard -f ./model_services/nfl/scoreboard/Dockerfile .
-# docker run -d -rm -p 3000:3000 nfl_scoreboard
-FROM node
+# docker build -t ncaa_scoreboard -f ./model_services/ncaa/scoreboard/Dockerfile .
+# docker run -d -rm -p 3000:3000 ncaa_scoreboard
+FROM node:16
 WORKDIR /usr/scoreboard
 COPY ./model_services/ncaa/scoreboard/package.json .
 COPY ./model_services/ncaa/scoreboard/package-lock.json .
